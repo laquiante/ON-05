@@ -24,7 +24,7 @@ iface tenantbond
 # ################################
 
 auto swp51
-iface swp251
+iface swp51
 
 auto swp52
 iface swp52
