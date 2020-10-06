@@ -82,7 +82,7 @@
   become: yes
   tasks:
     - copy:
-        src: /home/cumulus/ON-04/daemons
+        src: /home/cumulus/ON-05/daemons
         dest: /etc/frr/daemons
       notify:
         - frr_restart
