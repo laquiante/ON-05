@@ -83,7 +83,7 @@ iface swp54
 
 auto bridge
 iface bridge
-    bridge-ports globalbond tenantbond L3-bnn l3-sto l3-dps
+    bridge-ports globalbond tenantbond l3-bnn l3-sto l3-dps
     bridge-vids 10 20 200-202
     bridge-vlan-aware yes
 
