@@ -12,8 +12,8 @@ iface lo inet loopback
 # VRF
 # ################################
 
-auto dps2
-iface dps2
+auto bnn
+iface bnn
   vrf-table auto
 
 # ################################
@@ -99,5 +99,26 @@ iface vlan30
     address-virtual 00:00:00:00:00:01 172.31.30.254/24
     vlan-id 30
     vlan-raw-device bridge
+    vrf bnn
+
+    
+# ################################
+# L3VNI
+# ################################
+
+auto l3-bnn
+iface l3-bnn
+    bridge-access 200
+    bridge-learning off
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    vxlan-id 27000
+    vxlan-local-tunnelip 10.0.0.12
+
+auto vlan200
+iface vlan200
+    vlan-id 200
+    vlan-raw-device bridge
+    vrf bnn
 
 
