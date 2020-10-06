@@ -52,7 +52,7 @@ iface swp54
 
 auto bridge
 iface bridge
-    bridge-ports tenantbond vxlan10 peerlink l3-bnn
+    bridge-ports tenantbond peerlink l3-bnn
     bridge-vids 30 200
     bridge-vlan-aware yes
 
