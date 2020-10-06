@@ -28,5 +28,15 @@ router bgp 42000012
   advertise-all-vni
  exit-address-family
 !
+router bgp 42000012 vrf bnn
+ bgp router-id 10.0.0.11
+ !
+ address-family ipv4 unicast
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+ exit-address-family
+!
 line vty
 !
