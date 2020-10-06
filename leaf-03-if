@@ -108,7 +108,7 @@ iface vlan30
 
 auto l3-bnn
 iface l3-bnn
-    hwaddress 44:38:40:BE:EF:AA
+    hwaddress 44:38:39:BE:EF:AA
     bridge-access 200
     bridge-learning off
     mstpctl-bpduguard yes
