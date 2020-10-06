@@ -83,8 +83,8 @@ iface swp54
 
 auto bridge
 iface bridge
-    bridge-ports globalbond tenantbond vxlan10
-    bridge-vids 10 20 200-202 l3-bnn l3-sto l3-dps
+    bridge-ports globalbond tenantbond L3-bnn l3-sto l3-dps
+    bridge-vids 10 20 200-202
     bridge-vlan-aware yes
 
 # ################################
@@ -133,7 +133,7 @@ iface l3-bnn
 
 auto vlan200
 iface vlan200
-    44:38:39:00:00:AA
+    hwaddress 44:38:39:00:00:AA
     vlan-id 200
     vlan-raw-device bridge
     vrf bnn
@@ -150,7 +150,7 @@ iface l3-sto
 
 auto vlan201
 iface vlan201
-    44:38:39:00:00:AA
+    hwaddress 44:38:39:00:00:AA
     vlan-id 201
     vlan-raw-device bridge
     vrf sto
@@ -167,7 +167,7 @@ iface l3-dps
 
 auto vlan202
 iface vlan202
-    44:38:39:00:00:AA
+    hwaddress 44:38:39:00:00:AA
     vlan-id 202
     vlan-raw-device bridge
     vrf dps
