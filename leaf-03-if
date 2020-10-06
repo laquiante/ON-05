@@ -12,8 +12,8 @@ iface lo inet loopback
 # VRF
 # ################################
 
-auto dps2
-iface dps2
+auto bnn
+iface bnn
   vrf-table auto
     
 # ################################
@@ -92,7 +92,7 @@ iface eth0 inet dhcp
     post-up sysctl -w net.ipv6.conf.eth0.accept_ra=2
     
 # ################################
-# 
+# SVI
 # ################################
 
 auto vlan30
@@ -100,5 +100,6 @@ iface vlan30
     address-virtual 00:00:00:00:00:01 172.31.30.254/24
     vlan-id 30
     vlan-raw-device bridge
+    vrf bnn
 
 
