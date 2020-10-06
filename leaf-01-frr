@@ -6,11 +6,11 @@ service integrated-vtysh-config
 vrf bnn
   vni 27000
   exit-vrf
-  
+!  
 vrf sto
   vni 27002
   exit-vrf
-  
+!  
 vrf dsp
   vni 27001
   exit-vrf
