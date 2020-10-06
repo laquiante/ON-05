@@ -133,6 +133,7 @@ iface l3-bnn
 
 auto vlan200
 iface vlan200
+    44:38:39:00:00:AA
     vlan-id 200
     vlan-raw-device bridge
     vrf bnn
@@ -149,6 +150,7 @@ iface l3-sto
 
 auto vlan201
 iface vlan201
+    44:38:39:00:00:AA
     vlan-id 201
     vlan-raw-device bridge
     vrf sto
@@ -165,6 +167,7 @@ iface l3-dps
 
 auto vlan202
 iface vlan202
+    44:38:39:00:00:AA
     vlan-id 202
     vlan-raw-device bridge
     vrf dps
