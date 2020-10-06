@@ -3,6 +3,11 @@ hostname leaf02
 log syslog informational
 service integrated-vtysh-config
 !
+!
+vrf bnn
+  vni 27000
+  exit-vrf
+! 
 router bgp 42000013
  bgp router-id 10.0.0.13
  neighbor swp51 interface remote-as external
