@@ -52,8 +52,8 @@ iface swp54
 
 auto bridge
 iface bridge
-    bridge-ports tenantbond vxlan10 peerlink
-    bridge-vids 30
+    bridge-ports tenantbond vxlan10 peerlink l3-bnn
+    bridge-vids 30 200
     bridge-vlan-aware yes
 
 # ################################
@@ -102,4 +102,22 @@ iface vlan30
     vlan-raw-device bridge
     vrf bnn
 
+# ################################
+# L3VNI
+# ################################
+
+auto l3-bnn
+iface l3-bnn
+    bridge-access 200
+    bridge-learning off
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    vxlan-id 27000
+    vxlan-local-tunnelip 10.0.0.13
+
+auto vlan200
+iface vlan200
+    vlan-id 200
+    vlan-raw-device bridge
+    vrf bnn
 
