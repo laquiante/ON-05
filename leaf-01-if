@@ -84,7 +84,7 @@ iface swp54
 auto bridge
 iface bridge
     bridge-ports globalbond tenantbond vxlan10
-    bridge-vids 10 20
+    bridge-vids 10 20 200-202 l3-bnn l3-sto l3-dps
     bridge-vlan-aware yes
 
 # ################################
@@ -110,14 +110,64 @@ iface vlan10
     address-virtual 00:00:00:00:00:01 172.31.10.254/24
     vlan-id 10
     vlan-raw-device bridge
+    vrf dps
     
 auto vlan20
 iface vlan20
     address-virtual 00:00:00:00:00:01 172.31.20.254/24
     vlan-id 20
     vlan-raw-device bridge
+    vrf bnn
    
 # ################################
 # L3VNI
 # ################################
 
+auto l3-bnn
+iface l3-bnn
+    bridge-access 200
+    bridge-learning off
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    vxlan-id 27000
+    vxlan-local-tunnelip 10.0.0.11
+
+auto vlan200
+iface vlan200
+    vlan-id 200
+    vlan-raw-device bridge
+    vrf bnn
+
+# ################################
+
+auto l3-sto
+iface l3-sto
+    bridge-access 201
+    bridge-learning off
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    vxlan-id 27002
+    vxlan-local-tunnelip 10.0.0.11
+
+auto vlan201
+iface vlan201
+    vlan-id 201
+    vlan-raw-device bridge
+    vrf sto
+
+# ################################
+
+auto l3-dps
+iface l3-dps
+    bridge-access 202
+    bridge-learning off
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    vxlan-id 27001
+    vxlan-local-tunnelip 10.0.0.11
+
+auto vlan202
+iface vlan202
+    vlan-id 202
+    vlan-raw-device bridge
+    vrf dps
