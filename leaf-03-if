@@ -13,7 +13,7 @@ iface swp1
 
 auto tenantbond
 iface tenantbond
-    bridge-access 1
+    bridge-access 10
     bond-slaves swp1
     clag-id 1
     bond-lacp-bypass-allow yes
