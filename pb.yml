@@ -1,0 +1,364 @@
+# #################################################################
+
+# Drei Server
+
+# #################################################################
+
+# Server01 IF Datei
+
+- hosts: server01
+  name: Schnittstellen
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Server01
+      copy: 
+        src: /home/cumulus/ON-05/server-01-if
+        dest: /etc/network/interfaces
+    # aktivieren
+    - name: Durchstarten der Schnittstelle
+      shell: /sbin/ifreload -a
+
+# Server02 IF Datei
+
+- hosts: server02
+  name: Schnittstellen
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Server02
+      copy: 
+        src: /home/cumulus/ON-05/server-02-if
+        dest: /etc/network/interfaces
+    # aktivieren
+    - name: Durchstarten der Schnittstelle
+      shell: /sbin/ifreload -a
+      
+# Server03 IF Datei
+
+- hosts: server03
+  name: Schnittstellen
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Server03
+      copy: 
+        src: /home/cumulus/ON-05/server-03-if
+        dest: /etc/network/interfaces
+    # aktivieren
+    - name: Durchstarten der Schnittstelle
+      shell: /sbin/ifreload -a
+
+# #################################################################
+
+# FRR und BGP
+
+# #################################################################
+
+# Einspielen der Routing Daemon
+# und "restart" von FRR
+
+- hosts: leaf
+  name: Configure /etc/frr/daemon
+  become: yes
+  tasks:
+    - copy:
+        src: /home/cumulus/ON-05/daemons
+        dest: /etc/frr/daemons
+      notify:
+        - frr_restart
+        
+  handlers:
+    - name: frr_restart
+      service:
+        name=frr
+        state=restarted
+      listen: "frr_restart"
+
+# #################################################################
+
+- hosts: spine
+  name: Configure /etc/frr/daemon
+  become: yes
+  tasks:
+    - copy:
+        src: /home/cumulus/ON-04/daemons
+        dest: /etc/frr/daemons
+      notify:
+        - frr_restart
+
+  handlers:
+    - name: frr_restart
+      service:
+        name=frr
+        state=restarted
+      listen: "frr_restart"
+
+# #################################################################
+
+# Leafs
+
+# #################################################################
+
+# Leaf01 IF Datei
+
+- hosts: leaf01
+  name: Schnittstellen
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP 
+      copy: 
+        src: /home/cumulus/ON-05/leaf-01-if 
+        dest: /etc/network/interfaces
+    # aktivieren
+    - name: Durchstarten der Schnittstelle
+      shell: /sbin/ifreload -a
+      
+# Leaf01 routing      
+      
+- hosts: leaf01
+  name: Routing
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: EVPN VxLAN
+      copy:
+        src: /home/cumulus/ON-05/leaf-01-frr
+        dest: /etc/frr/frr.conf
+      notify:
+        - frr_reload
+        
+  handlers:
+    - name: frr_reload
+      service:
+        name=frr
+        state=reloaded
+      listen: "frr_reload"
+    
+# #################################################################    
+    
+# Leaf02 IF Datei
+
+- hosts: leaf02
+  name: Schnittstellen
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP 
+      copy: 
+        src: /home/cumulus/ON-05/leaf-02-if 
+        dest: /etc/network/interfaces
+    # aktivieren
+    - name: Durchstarten der Schnittstelle
+      shell: /sbin/ifreload -a    
+    
+# Leaf02 routing   
+      
+- hosts: leaf02
+  name: Routing
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP
+      copy: 
+        src: /home/cumulus/ON-05/leaf-02-frr
+        dest: /etc/frr/frr.conf
+      notify:
+        - frr_reload
+ 
+  handlers:
+    - name: frr_reload
+      service:
+        name=frr
+        state=reloaded
+      listen: "frr_reload" 
+ 
+ 
+ # #################################################################    
+    
+# Leaf03 IF Datei
+
+- hosts: leaf03
+  name: Schnittstellen
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP 
+      copy: 
+        src: /home/cumulus/ON-05/leaf-03-if 
+        dest: /etc/network/interfaces
+    # aktivieren
+    - name: Durchstarten der Schnittstelle
+      shell: /sbin/ifreload -a    
+    
+# Leaf02 routing   
+      
+- hosts: leaf03
+  name: Routing
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP
+      copy: 
+        src: /home/cumulus/ON-05/leaf-03-frr
+        dest: /etc/frr/frr.conf
+      notify:
+        - frr_reload
+ 
+  handlers:
+    - name: frr_reload
+      service:
+        name=frr
+        state=reloaded
+      listen: "frr_reload" 
+ 
+# #################################################################    
+    
+ 
+# #################################################################  
+ 
+# Spine01 IF Datei
+
+- hosts: spine01
+  name: Schnittstellen
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP 
+      copy: 
+        src: /home/cumulus/ON-05/spine-01-if 
+        dest: /etc/network/interfaces
+    # aktivieren
+    - name: Durchstarten der Schnittstelle
+      shell: /sbin/ifreload -a   
+ 
+# Spine01 routing
+      
+- hosts: spine01
+  name: Routing
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP
+      copy: 
+        src: /home/cumulus/ON-05/spine-01-frr
+        dest: /etc/frr/frr.conf
+      notify:
+        - frr_reload
+      
+  handlers:
+    - name: frr_reload
+      service:
+        name=frr
+        state=reloaded
+      listen: "frr_reload"
+      
+ # Spine02 IF Datei
+
+- hosts: spine02
+  name: Schnittstellen
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP 
+      copy: 
+        src: /home/cumulus/ON-05/spine-02-if 
+        dest: /etc/network/interfaces
+    # aktivieren
+    - name: Durchstarten der Schnittstelle
+      shell: /sbin/ifreload -a   
+ 
+# Spine02 routing
+      
+- hosts: spine02
+  name: Routing
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP
+      copy: 
+        src: /home/cumulus/ON-05/spine-02-frr
+        dest: /etc/frr/frr.conf
+      notify:
+        - frr_reload
+      
+  handlers:
+    - name: frr_reload
+      service:
+        name=frr
+        state=reloaded
+      listen: "frr_reload"
+      
+ # Spine03 IF Datei
+
+- hosts: spine03
+  name: Schnittstellen
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP 
+      copy: 
+        src: /home/cumulus/ON-05/spine-03-if 
+        dest: /etc/network/interfaces
+    # aktivieren
+    - name: Durchstarten der Schnittstelle
+      shell: /sbin/ifreload -a   
+ 
+# Spine03 routing
+      
+- hosts: spine03
+  name: Routing
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP
+      copy: 
+        src: /home/cumulus/ON-05/spine-03-frr
+        dest: /etc/frr/frr.conf
+      notify:
+        - frr_reload
+      
+  handlers:
+    - name: frr_reload
+      service:
+        name=frr
+        state=reloaded
+      listen: "frr_reload"
+      
+      
+# Spine04 IF Datei
+
+- hosts: spine03
+  name: Schnittstellen
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP 
+      copy: 
+        src: /home/cumulus/ON-05/spine-04-if 
+        dest: /etc/network/interfaces
+    # aktivieren
+    - name: Durchstarten der Schnittstelle
+      shell: /sbin/ifreload -a   
+ 
+# Spine04 routing
+      
+- hosts: spine03
+  name: Routing
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: IPv4 und BGP
+      copy: 
+        src: /home/cumulus/ON-05/spine-04-frr
+        dest: /etc/frr/frr.conf
+      notify:
+        - frr_reload
+      
+  handlers:
+    - name: frr_reload
+      service:
+        name=frr
+        state=reloaded
+      listen: "frr_reload"
