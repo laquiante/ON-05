@@ -1,7 +1,27 @@
+# ################################
+# Loopback
+# ################################
+
 auto lo
 iface lo inet loopback
     address 10.0.0.11/32
     vxlan-local-tunnelip 10.0.0.11
+
+# ################################
+# VRF
+# ################################
+
+auto bnn
+iface bnn
+  vrf-table auto
+
+auto sto
+iface sto
+  vrf-table auto
+
+auto dps
+iface dps
+  vrf-table auto
 
 # ################################
 # Global Bond
@@ -37,7 +57,7 @@ iface swp6
 
 auto tenantbond
 iface tenantbond
-    bridge-access 10
+    bridge-access 20
     bond-slaves swp5 swp6
     bond-lacp-bypass-allow yes
 
@@ -64,7 +84,7 @@ iface swp54
 auto bridge
 iface bridge
     bridge-ports globalbond tenantbond vxlan10
-    bridge-vids 10
+    bridge-vids 10 20
     bridge-vlan-aware yes
 
 # ################################
@@ -82,7 +102,7 @@ iface eth0 inet dhcp
     post-up sysctl -w net.ipv6.conf.eth0.accept_ra=2
 
 # ################################
-#
+# SVI
 # ################################
 
 auto vlan10
@@ -90,13 +110,14 @@ iface vlan10
     address-virtual 00:00:00:00:00:01 172.31.10.254/24
     vlan-id 10
     vlan-raw-device bridge
+    
+auto vlan20
+iface vlan10
+    address-virtual 00:00:00:00:00:01 172.31.20.254/24
+    vlan-id 20
+    vlan-raw-device bridge
+   
+# ################################
+# L3VNI
+# ################################
 
-auto vxlan10
-iface vxlan10
-    bridge-access 10
-    bridge-arp-nd-suppress on
-    bridge-learning off
-    mstpctl-bpduguard yes
-    mstpctl-portbpdufilter yes
-    vxlan-id 10
-    vxlan-local-tunnelip 10.0.0.11
