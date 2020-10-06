@@ -12,7 +12,7 @@ auto swp3
 iface swp3
 
 auto sep4
-iface spw4
+iface swp4
 
 auto mgmt
 iface mgmt
