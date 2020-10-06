@@ -113,7 +113,6 @@ iface l3-bnn
     mstpctl-bpduguard yes
     mstpctl-portbpdufilter yes
     vxlan-id 27000
-    vxlan-local-tunnelip 10.0.0.13
 
 auto vlan200
 iface vlan200
