@@ -110,7 +110,7 @@ iface vlan10
     address-virtual 00:00:00:00:00:01 172.31.10.254/24
     vlan-id 10
     vlan-raw-device bridge
-    vrf dps
+    vrf bnn
     
 auto vlan20
 iface vlan20
