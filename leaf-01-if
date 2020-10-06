@@ -112,7 +112,7 @@ iface vlan10
     vlan-raw-device bridge
     
 auto vlan20
-iface vlan10
+iface vlan20
     address-virtual 00:00:00:00:00:01 172.31.20.254/24
     vlan-id 20
     vlan-raw-device bridge
