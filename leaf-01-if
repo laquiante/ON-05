@@ -170,8 +170,8 @@ iface L3VNI_bnn
     mstpctl-portbpdufilter yes
     vxlan-id 27000
 
-auto vlan1001
-iface vlan1001
+auto vlan1002
+iface vlan1002
     hwaddress 44:38:39:01:01:01
     vlan-id 1002
     vlan-raw-device bridge
