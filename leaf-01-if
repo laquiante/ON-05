@@ -11,21 +11,8 @@ iface lo inet loopback
 # VRF
 # ################################
 
-auto RED
-iface RED
-  vrf-table auto
-
-auto bnn
-iface bnn
-  vrf-table auto
-
-auto sto
-iface sto
-  vrf-table auto
-
-auto dps
-iface dps
-  vrf-table auto
+vrf LinuxAdmin
+  vni 10010
 
 # ################################
 # Global Bond
@@ -87,8 +74,8 @@ iface swp54
 
 auto bridge
 iface bridge
-    bridge-ports globalbond tenantbond l3-bnn l3-sto l3-dps
-    bridge-vids 10 20 200-202 4001
+    bridge-ports globalbond tenantbond vxlan10 vxlan20 L3VNI_Linux
+    bridge-vids 10 20 1001
     bridge-vlan-aware yes
 
 # ################################
@@ -114,81 +101,55 @@ iface vlan10
     address-virtual 00:00:00:00:00:01 172.31.10.254/24
     vlan-id 10
     vlan-raw-device bridge
-    vrf RED
+    vrf LinuxAdmin
     
 auto vlan20
 iface vlan20
     address-virtual 00:00:00:00:00:01 172.31.20.254/24
     vlan-id 20
     vlan-raw-device bridge
-    vrf RED
+    vrf LinuxAdmin
    
 # ################################
-# L3VNI
+# L2VNI
 # ################################
 
-auto L3VNI_RED
-iface L3VNI_RED
-    bridge-access 4001
+auto vxlan10
+iface vxlan10
+    bridge-access 10
     bridge-arp-nd-suppress on
     bridge-learning off
     mstpctl-bpduguard yes
     mstpctl-portbpdufilter yes
-    vxlan-id 3004001
-
-auto vlan4001
-iface vlan4001
-    hwaddress 44:38:39:BE:EF:AA
-    vlan-id 4001
-    vlan-raw-device bridge
-    vrf RED
-
-
-auto l3-bnn
-iface l3-bnn
-    bridge-access 200
+    vxlan-id 10
+    vxlan-local-tunnelip 10.0.0.11
+    
+auto vxlan20
+iface vxlan20
+    bridge-access 20
+    bridge-arp-nd-suppress on
     bridge-learning off
     mstpctl-bpduguard yes
     mstpctl-portbpdufilter yes
-    vxlan-id 27000
-
-auto vlan200
-iface vlan200
-    hwaddress 44:38:39:00:00:AA
-    vlan-id 200
-    vlan-raw-device bridge
-    vrf bnn
+    vxlan-id 20
+    vxlan-local-tunnelip 10.0.0.11
 
 # ################################
-
-auto l3-sto
-iface l3-sto
-    bridge-access 201
-    bridge-learning off
-    mstpctl-bpduguard yes
-    mstpctl-portbpdufilter yes
-    vxlan-id 27002
-
-auto vlan201
-iface vlan201
-    hwaddress 44:38:39:00:00:AA
-    vlan-id 201
-    vlan-raw-device bridge
-    vrf sto
-
+# L3VNI
 # ################################
 
-auto l3-dps
-iface l3-dps
-    bridge-access 202
+auto L3VNI_Linux
+iface L3VNI_Linux
+    bridge-access 1001
+    bridge-arp-nd-suppress on
     bridge-learning off
     mstpctl-bpduguard yes
     mstpctl-portbpdufilter yes
-    vxlan-id 27001
+    vxlan-id 10010
 
-auto vlan202
-iface vlan202
-    hwaddress 44:38:39:00:00:AA
-    vlan-id 202
+auto vlan1001
+iface vlan1001
+    hwaddress 44:38:39:01:01:01
+    vlan-id 1001
     vlan-raw-device bridge
-    vrf dps
+    vrf LinuxAdmin
