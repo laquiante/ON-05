@@ -4,7 +4,10 @@ log syslog informational
 service integrated-vtysh-config
 !
 vrf bnn
-  vni 10010
+  vni 27000
+!
+vrf dps
+  vni 27001
 ! 
 router bgp 42000013
  bgp router-id 10.0.0.13
