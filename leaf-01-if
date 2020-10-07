@@ -11,8 +11,9 @@ iface lo inet loopback
 # VRF
 # ################################
 
-vrf LinuxAdmin
-  vni 10010
+auto LinuxAdmin
+iface LinuxAdmin
+  vrf-table auto
 
 # ################################
 # Global Bond
