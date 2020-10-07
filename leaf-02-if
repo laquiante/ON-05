@@ -12,12 +12,8 @@ iface lo inet loopback
 # VRF
 # ################################
 
-auto RED
-iface RED
-  vrf-table auto
-
-auto bnn
-iface bnn
+auto LinuxAdmin
+iface LinuxAdmin
   vrf-table auto
 
 # ################################
@@ -56,8 +52,8 @@ iface swp54
 
 auto bridge
 iface bridge
-    bridge-ports tenantbond peerlink l3-bnn L3VNI_RED
-    bridge-vids 30 200 4001
+    bridge-ports tenantbond peerlink vxlan20 vxlan30 L3VNI_Linux
+    bridge-vids 20 30 1001
     bridge-vlan-aware yes
 
 # ################################
@@ -96,49 +92,55 @@ iface eth0 inet dhcp
     
 # ################################
 # SVI
-# ################################
+# ################################    
 
 auto vlan30
 iface vlan30
     address-virtual 00:00:00:00:00:01 172.31.30.254/24
     vlan-id 30
     vlan-raw-device bridge
-    vrf bnn
+    vrf LinuxAdmin
 
+# ################################
+# L2VNI
+# ################################
+    
+auto vxlan20
+iface vxlan20
+    bridge-access 20
+    bridge-arp-nd-suppress on
+    bridge-learning off
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    vxlan-id 20
+    vxlan-local-tunnelip 10.0.0.12    
+    
+auto vxlan30
+iface vxlan30
+    bridge-access 30
+    bridge-arp-nd-suppress on
+    bridge-learning off
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    vxlan-id 30
+    vxlan-local-tunnelip 10.0.0.12    
     
 # ################################
 # L3VNI
 # ################################
 
-auto L3VNI_RED
-iface L3VNI_RED
-    bridge-access 4001
+auto L3VNI_Linux
+iface L3VNI_Linux
+    bridge-access 1001
     bridge-arp-nd-suppress on
     bridge-learning off
     mstpctl-bpduguard yes
     mstpctl-portbpdufilter yes
-    vxlan-id 3004001
-
-auto vlan4001
-iface vlan4001
-    hwaddress 44:38:39:BE:EF:BB
-    vlan-id 4001
+    vxlan-id 10010
+    
+auto vlan1001
+iface vlan1001
+    hwaddress 44:38:39:02:02:02
+    vlan-id 1001
     vlan-raw-device bridge
-    vrf RED
-
-auto l3-bnn
-iface l3-bnn
-    bridge-access 200
-    bridge-learning off
-    mstpctl-bpduguard yes
-    mstpctl-portbpdufilter yes
-    vxlan-id 27000
-
-auto vlan200
-iface vlan200
-    hwaddress 44:38:39:00:00:AB
-    vlan-id 200
-    vlan-raw-device bridge
-    vrf bnn
-
-
+    vrf LinuxAdmin
