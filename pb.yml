@@ -194,24 +194,24 @@
     
 # Leaf02 routing   
       
-- hosts: leaf03
-  name: Routing
-  become: yes
-  gather_facts: no
-  tasks:
-    - name: IPv4 und BGP
-      copy: 
-        src: /home/cumulus/ON-05/leaf-03-frr
-        dest: /etc/frr/frr.conf
-      notify:
-        - frr_reload
- 
-  handlers:
-    - name: frr_reload
-      service:
-        name=frr
-        state=reloaded
-      listen: "frr_reload" 
+#- hosts: leaf03
+#  name: Routing
+#  become: yes
+#  gather_facts: no
+#  tasks:
+#    - name: IPv4 und BGP
+#      copy: 
+#        src: /home/cumulus/ON-05/leaf-03-frr
+#        dest: /etc/frr/frr.conf
+#      notify:
+#        - frr_reload
+# 
+#  handlers:
+#    - name: frr_reload
+#      service:
+#        name=frr
+#        state=reloaded
+#      listen: "frr_reload" 
  
 # #################################################################    
     
