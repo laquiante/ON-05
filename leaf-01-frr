@@ -3,17 +3,8 @@ hostname leaf01
 log syslog informational
 service integrated-vtysh-config
 !
-vrf RED
-  vni 3004001
-!
-vrf bnn
-  vni 27000
-!  
-vrf sto
-  vni 27002
-!  
-vrf dsp
-  vni 27001
+vrf LinuxAdmin
+  vni 10010
 !
 router bgp 42000011
  bgp router-id 10.0.0.11
