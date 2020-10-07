@@ -26,5 +26,17 @@ router bgp 42000011
   advertise-svi-ip
  exit-address-family
 !
+router bgp 42000011 vrf bnn
+ bgp router-id 10.0.0.11
+ neighbor 172.31.10.1 remote-as 65000
+ !
+ address-familiy ipv4 unicast
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+  redistribute connected
+ exit-address-family
+!
 line vty
 !
