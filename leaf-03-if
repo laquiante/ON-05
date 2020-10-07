@@ -12,8 +12,8 @@ iface lo inet loopback
 # VRF
 # ################################
 
-auto LinuxAdmin
-iface LinuxAdmin
+auto bnn
+iface bnn
   vrf-table auto
     
 # ################################
@@ -53,7 +53,7 @@ iface swp54
 auto bridge
 iface bridge
     bridge-ports tenantbond peerlink vxlan20 vxlan30 L3VNI_Linux
-    bridge-vids 20 30 1001
+    bridge-vids 30 1001
     bridge-vlan-aware yes
 
 # ################################
@@ -100,21 +100,11 @@ iface vlan30
     address-virtual 00:00:00:00:00:01 172.31.30.254/24
     vlan-id 30
     vlan-raw-device bridge
-    vrf LinuxAdmin
+    vrf bnn
 
 # ################################
 # L2VNI
-# ################################
-
-auto vxlan20
-iface vxlan20
-    bridge-access 20
-    bridge-arp-nd-suppress on
-    bridge-learning off
-    mstpctl-bpduguard yes
-    mstpctl-portbpdufilter yes
-    vxlan-id 20
-    vxlan-local-tunnelip 10.0.0.13    
+# ################################  
     
 auto vxlan30
 iface vxlan30
@@ -144,4 +134,4 @@ iface vlan1001
     hwaddress 44:38:39:02:02:02
     vlan-id 1001
     vlan-raw-device bridge
-    vrf LinuxAdmin
+    vrf bnn
