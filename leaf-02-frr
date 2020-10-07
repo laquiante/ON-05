@@ -9,7 +9,7 @@ vrf bnn
 !  
 router bgp 42000012
  bgp router-id 10.0.0.12
-bgp bestpath as-path multipath-relax
+ bgp bestpath as-path multipath-relax
  neighbor underlay peer-group
  neighbor underlay remote-as external
  neighbor swp51 interface peer-group underlay
