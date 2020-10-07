@@ -45,7 +45,7 @@ router bgp 42000011 vrf dps
 !
 router bgp 42000011 vrf bnn
  bgp router-id 10.0.0.11
- neighbor 172.31.20.1 remote-as 65001
+ neighbor 172.31.20.2 remote-as 65001
  !
  address-familiy ipv4 unicast
  exit-address-family
