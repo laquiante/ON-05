@@ -39,6 +39,8 @@ router bgp 42000011 vrf dps
  address-family l2vpn evpn
   advertise ipv4 unicast
   redistribute connected
+  route-target import 65888:27001
+  route-target export 65888:27001
  exit-address-family
 !
  exit-address-family
@@ -53,6 +55,8 @@ router bgp 42000011 vrf bnn
  address-family l2vpn evpn
   advertise ipv4 unicast
   redistribute connected
+  route-target import 65888:27000
+  route-target export 65888:27000
  exit-address-family
 !
  exit-address-family
