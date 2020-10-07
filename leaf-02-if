@@ -57,7 +57,7 @@ iface swp54
 auto bridge
 iface bridge
     bridge-ports tenantbond peerlink vxlan20 vxlan30 L3VNI_Linux
-    bridge-vids 20 30 1001
+    bridge-vids 20 30 1001 1002
     bridge-vlan-aware yes
 
 # ################################
@@ -149,12 +149,12 @@ iface vlan1001
     hwaddress 44:38:39:02:02:02
     vlan-id 1001
     vlan-raw-device bridge
-    vrf bnn
+    vrf dps
 
 
 auto L3VNI_bnn
 iface L3VNI_bnn
-    bridge-access 1001
+    bridge-access 1002
     bridge-arp-nd-suppress on
     bridge-learning off
     mstpctl-bpduguard yes
