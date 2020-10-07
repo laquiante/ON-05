@@ -3,6 +3,8 @@ hostname leaf02
 log syslog informational
 service integrated-vtysh-config
 !
+vrf RED
+  vni 3004001
 !
 vrf bnn
   vni 27000
