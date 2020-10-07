@@ -3,7 +3,7 @@ hostname leaf02
 log syslog informational
 service integrated-vtysh-config
 !
-vrf LinuxAdmin
+vrf bnn
   vni 10010
 !  
 router bgp 42000012
