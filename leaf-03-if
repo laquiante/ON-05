@@ -12,6 +12,10 @@ iface lo inet loopback
 # VRF
 # ################################
 
+auto RED
+iface RED
+  vrf-table auto
+
 auto bnn
 iface bnn
   vrf-table auto
@@ -52,8 +56,8 @@ iface swp54
 
 auto bridge
 iface bridge
-    bridge-ports tenantbond peerlink l3-bnn
-    bridge-vids 30 200
+    bridge-ports tenantbond peerlink l3-bnn L3VNI_RED
+    bridge-vids 30 200 4001
     bridge-vlan-aware yes
 
 # ################################
@@ -99,11 +103,28 @@ iface vlan30
     address-virtual 00:00:00:00:00:01 172.31.30.254/24
     vlan-id 30
     vlan-raw-device bridge
-    vrf bnn
+    vrf RED
 
 # ################################
 # L3VNI
 # ################################
+
+auto L3VNI_RED
+iface L3VNI_RED
+    bridge-access 4001
+    bridge-arp-nd-suppress on
+    bridge-learning off
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    vxlan-id 3004001
+
+auto vlan4001
+iface vlan4001
+    hwaddress 44:38:39:BE:EF:BB
+    vlan-id 4001
+    vlan-raw-device bridge
+    vrf RED
+
 
 auto l3-bnn
 iface l3-bnn
